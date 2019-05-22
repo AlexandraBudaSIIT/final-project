@@ -1,8 +1,15 @@
 package ro.ale.finalproject.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ro.ale.finalproject.model.User;
 
-public interface UserRepository extends CrudRepository<User,Integer> {
+/**
+ * The UserRepository interface allows to access the information stored in the data base
+ *
+ * @author Alexandra Buda
+ */
+public interface UserRepository extends JpaRepository<User,Integer> {
+
+    // retrieve a user associated with a username
     User findByUsername(String username);
 }

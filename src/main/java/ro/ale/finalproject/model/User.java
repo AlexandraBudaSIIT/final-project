@@ -1,30 +1,38 @@
 package ro.ale.finalproject.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
+/**
+ * The User class for storing users,
+ * by creating a User entity that is mapped to a database table
+ *
+ * @author Alexandra Buda
+ */
 @Entity
 @Table(name = "users")
+@Valid
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int id;
 
     @Size(min = 2, max = 30, message = "Try with at least 2 characters")
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
 
     @Size(min = 2, max = 30, message = "Try with at least 2 characters")
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Size(min = 3, max = 30, message = "Try with at least 3 characters")
+    @Size(message = "eroare")
     @NotBlank
     private String username;
 
-    @Size(min = 8, max = 30, message = "Try with at least 8 characters")
+    @Size(message = "eroare")
     @NotBlank
     private String password;
 
@@ -34,9 +42,13 @@ public class User {
     @Size(min = 2, max = 30, message = "Try with at least 2 characters")
     private String address;
 
-    @Size(min = 10, max = 10, message = "Please enter a valid phone number")
+
     private int phone;
 
+    private Set<Role> roles;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -99,5 +111,16 @@ public class User {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userid"),
+            inverseJoinColumns = @JoinColumn(name = "roleid"))
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

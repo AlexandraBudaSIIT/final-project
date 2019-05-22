@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Trips</title>
+
+    <style type="text/css">
+	body {
+		color: #fff;
+		background: #344a71;
+		font-family: 'Roboto', sans-serif;
+	}
+	.form-control {
+		min-height: 41px;
+		box-shadow: none;
+		border-color: #e1e4e5;
+	}
+	.form-control:focus {
+		border-color: #49c1a2;
+	}
+	.form-control, .btn {
+        border-radius: 3px;
+    }
+	.trips-form {
+		width: 1000px;
+		margin: 0 auto;
+		padding: 30px 0;
+	}
+	.trips-form form {
+		color: #9ba5a8;
+		border-radius: 3px;
+    	margin-bottom: 15px;
+        background: #fff;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+	.trips-form h2 {
+		color: #333;
+		font-weight: bold;
+        margin-top: 0;
+    }
+    .trips-form hr {
+        margin: 0 -30px 20px;
+    }
+	.trips-form .form-group {
+		margin-bottom: 20px;
+	}
+	.trips-form label {
+		font-weight: normal;
+		font-size: 13px;
+	}
+	.trips-form .btn {
+        font-size: 16px;
+        font-weight: bold;
+		background: #49c1a2;
+		border: none;
+		min-width: 140px;
+    }
+	.trips-form .btn:hover, .trips-form .btn:focus {
+		background: #3cb094;
+        outline: none !important;
+	}
+	.trips-form a {
+		color: #fff;
+		text-decoration: underline;
+	}
+	.trips-form a:hover {
+		text-decoration: none;
+	}
+	<!--.trips-form form a {-->
+		<!--color: #49c1a2;-->
+		<!--text-decoration: none;-->
+	<!--}-->
+	.trips-form form a:hover {
+		text-decoration: underline;
+	}
+	textarea {
+           resize: vertical;
+       }
+    .thumbnail {
+            position: relative;
+            padding: 0px;
+            margin-bottom: 20px;
+        }
+    .thumbnail img {
+             width: 100%;
+        }
+
+
+
+    </style>
+
+</head>
+<body>
+
+<div layout:fragment="continut" class="trips-form">
+    <form th:action="@{/trips}" th:object="${selectedTrip}" method="GET">
+        <h2><span sec:authentication="name"></span>'s Trips</h2>
+
+        <div class="form-group">
+            <label for="myOption">Trip</label>
+            <select class="form-control" id="myOption" name="myOption" onchange="this.form.submit()">
+                <option th:value="${selectedTrip.tripId}" th:text="${selectedTrip.tripName}"></option>
+                <option
+                        th:each="myOption: ${trips}"
+                        th:value="${myOption.tripId}"
+                        th:text="${myOption.tripName}">
+                </option>
+            </select>
+
+            <a class="btn btn-primary btn-block btn-lg" href="/add">Add Trip</a>
+        </div>
+
+        <div class="form-group">
+            <label for="impression">Impression</label>
+            <textarea class="form-control" rows="3" id="impression" th:text="${selectedTrip.impression}" readonly>
+                </textarea>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-25">
+                    <!--<div class="col-md-8">-->
+                    <div class="col-lg-3 col-md-3">
+                        <div class="amenities-details">
+                            <label for="dates">Dates</label>
+                            <textarea class="form-control" style="resize: none; text-align: center;" rows="1" id="dates"
+                                      th:text="${#temporals.format(selectedTrip.dateFrom, 'dd/MM/yyyy')} + ' - ' +
+                                           ${#temporals.format(selectedTrip.dateTo, 'dd/MM/yyyy')}" readonly>
+                        </textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3">
+                        <div class="thumbnail">
+                            <div class="amenities-thumb">
+                                <img th:src="@{${'/photos/' + selectedTrip.firstPhoto}}" alt="firstPhoto"/>
+                            </div>
+                            <div class="amenities-details">
+                                <h4 th:text="${selectedTrip.firstPhotoDescription}"></h4>
+                                <p th:text="${selectedTrip.firstPhotoDetail}"></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3">
+                        <div class="thumbnail">
+                            <div class="amenities-thumb">
+                                <img th:src="@{${'/photos/' + selectedTrip.secondPhoto}}" alt="secondPhoto"/>
+                            </div>
+                            <div class="amenities-details">
+                                <h4 th:text="${selectedTrip.secondPhotoDescription}"></h4>
+                                <p th:text="${selectedTrip.secondPhotoDetail}"></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form th:action="@{/delete}" method="post">
+        <input type="hidden" name="idTrip" th:value="${selectedTrip.tripId}"/>
+        <input type="submit" class="btn btn-primary btn-block btn-lg" value="Delete Trip">
+    </form>
+</div>
+
+</body>
+</html>

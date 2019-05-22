@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js">
+    </script>
+
+    <style type="text/css">
+	body {
+		color: #fff;
+		background: #344a71;
+		font-family: 'Roboto', sans-serif;
+	}
+	.form-control {
+		min-height: 41px;
+		box-shadow: none;
+		border-color: #e1e4e5;
+	}
+	.form-control:focus {
+		border-color: #49c1a2;
+	}
+	.form-control, .btn {
+        border-radius: 3px;
+    }
+	.profile-form {
+		width: 400px;
+		margin: 0 auto;
+		padding: 30px 0;
+	}
+	.profile-form form {
+		color: #9ba5a8;
+		border-radius: 3px;
+    	margin-bottom: 15px;
+        background: #fff;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+	.profile-form h2 {
+		color: #333;
+		font-weight: bold;
+        margin-top: 0;
+    }
+    .profile-form hr {
+        margin: 0 -30px 20px;
+    }
+	.profile-form .form-group {
+		margin-bottom: 20px;
+	}
+	.profile-form label {
+		font-weight: normal;
+		font-size: 13px;
+	}
+	.profile-form .btn {
+        font-size: 16px;
+        font-weight: bold;
+		background: #49c1a2;
+		border: none;
+		min-width: 140px;
+    }
+	.profile-form .btn:hover, .signup-form .btn:focus {
+		background: #3cb094;
+        outline: none !important;
+	}
+	.profile-form a {
+		color: #fff;
+		text-decoration: underline;
+	}
+	.profile-form a:hover {
+		text-decoration: none;
+	}
+	.profile-form form a {
+		color: #49c1a2;
+		text-decoration: none;
+	}
+	.profile-form form a:hover {
+		text-decoration: underline;
+	}
+</style>
+</head>
+<body>
+<div layout:fragment="continut" class="profile-form">
+    <form class="form-horizontal" th:action="@{/editProfile}" th:object="${user}" method="post">
+        <h2><span sec:authentication="name"></span>'s Profile</h2>
+        <hr>
+        <input type="hidden" id="id" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label>First Name</label>
+            <input class="form-control" id="firstName" type="text" th:field="*{firstName}"/>
+            <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+        </div>
+
+        <div class="form-group">
+            <label>Last Name</label>
+            <input class="form-control" id="lastName" type="text" th:field="*{lastName}"/>
+            <small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+        </div>
+
+        <div class="form-group">
+            <label>User name</label>
+            <input class="form-control" id="username" type="text" th:field="*{username}"/>
+            <small class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" placeholder="Password" id="password" type="password"
+                   th:field="*{password}" data-toggle="password"/>
+        </div>
+
+        <div class="form-group">
+            <label>City</label>
+            <input class="form-control" id="city" type="text" th:field="*{city}"/>
+            <small class="text-danger" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></small>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <input class="form-control" id="address" type="text" th:field="*{address}"/>
+            <small class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
+        </div>
+
+        <div class="form-group">
+            <label>Phone</label>
+            <input class="form-control" id="phone" type="number" th:field="*{phone}"/>
+        </div>
+
+
+        <!--<input class="btn btn-default" type="submit"></input>-->
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Edit profile</button>
+        </div>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    $("#password").password('toggle');
+</script>
+
+
+</body>
+</html>
